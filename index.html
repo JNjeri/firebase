@@ -2,11 +2,16 @@
 <html>
 <head>
 	<title>My Firebase App</title>
+	<link rel="stylesheet" href="https://cdn.rawgit.com/milligram/milligram/master/dist/milligram.min.css">
+
 </head>
 <body>
 	<h1>My tasks</h1>
 	<input  id="task_name" type="text" name="task_name" placeholder="task_name">
 	<button id="btn_add">add task</button>
+	<ol id="task_items">
+		
+	</ol>
 
 
 	<script src="https://www.gstatic.com/firebasejs/5.4.2/firebase.js"></script>
@@ -32,9 +37,27 @@
 	btn.onclick = function () {	
 		console.log(input.value);
 		db.collection("tasks").add({
-			task_name:input.value
+			task_name:input.value,
+			date:Date.now()
 		})
 	}
+	function renderTask(task) {
+		var li = document.createElement("li")
+		li.innerHTML=task.task_name;
+		document.querySelector("#task_items")
+		.appendChild(li);
+	}
+
+	db.collection("tasks")
+	.orderBy("date")
+	.onSnapshot(function(snapshot){
+		document.querySelector("#task_items").innerHTML = "";
+		snapshot.forEach((doc) => {
+			const task= doc.data();
+			renderTask(task);
+		})
+	})
+
 </script>
 </body>
 
