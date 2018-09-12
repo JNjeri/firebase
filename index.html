@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>My Firebase App</title>
+</head>
+<body>
+	<h1>My tasks</h1>
+	<input  id="task_name" type="text" name="task_name" placeholder="task_name">
+	<button id="btn_add">add task</button>
+
+
+	<script src="https://www.gstatic.com/firebasejs/5.4.2/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyCKqmvKfGAXJFw58I_rSUZtbSbMI5Brkx4",
+    authDomain: "fwork1-4f9fd.firebaseapp.com",
+    databaseURL: "https://fwork1-4f9fd.firebaseio.com",
+    projectId: "fwork1-4f9fd",
+    storageBucket: "fwork1-4f9fd.appspot.com",
+    messagingSenderId: "540853894978"
+  };
+  firebase.initializeApp(config);
+</script>
+<script>
+	var db = firebase.firestore();
+	db.settings({
+		timestampsInSnapshots:true
+	});
+	const btn = document.querySelector("#btn_add");
+	const input = document.querySelector("#task_name");
+	btn.onclick = function () {	
+		console.log(input.value);
+		db.collection("tasks").add({
+			task_name:input.value
+		})
+	}
+</script>
+</body>
+
+
+</html>
